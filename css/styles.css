@@ -1,0 +1,65 @@
+/* Fondo del cuerpo */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: url('/assets/background-comics.png') no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+  text-align: center;
+}
+
+/* Encabezado */
+header {
+  padding: 20px;
+  background: #f0131e; /* Fondo semitransparente */
+  color: #fff;
+}
+
+header input {
+    padding: 10px;
+    width: 80%;
+    max-width: 400px;
+    border: none;
+    border-radius: 5px;
+  }
+
+/* Caja de resultados */
+#charactersContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+  background: rgb(18, 18, 18); 
+  border-radius: 8px; /* Opcional para un mejor diseño */
+  margin: 40px auto;
+  max-width: 90%; /* Controlar el ancho */
+}
+
+/* Tarjetas */
+.character-card {
+  background: #1c1c1c;
+  border-radius: 8px;
+  padding: 20px;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s;
+}
+
+.character-card:hover {
+  transform: scale(1.05);
+}
+
+/* Imagen dentro de la tarjeta */
+.character-card img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* Pie de página */
+footer {
+  padding: 10px;
+  background: #101010;
+  font-size: 0.9rem;
+}
