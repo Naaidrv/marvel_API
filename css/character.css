@@ -1,0 +1,103 @@
+/* General */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+header {
+    background-color: #20232a;
+    padding: 10px;
+    text-align: left;
+}
+
+.back-button {
+    background-color: #f0131e;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.back-button:hover {
+    background-color: #c00e17;
+}
+
+.biography-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Nombre del personaje */
+.character-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.character-header h1 {
+    font-size: 2.5rem;
+    color: #f0131e;
+}
+
+.character-header h2 {
+    font-size: 1.5rem;
+    color: #555;
+}
+
+.character-header img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+/* Historia */
+.character-story {
+    margin-bottom: 20px;
+}
+
+.character-story h3 {
+    color: #f0131e;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+/* Datos generales */
+.character-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.character-info li {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+/* Grupo/Afiliación */
+.group-chip {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #f0131e;
+    color: white;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Pie de página */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #20232a;
+    color: white;
+    margin-top: 20px;
+}

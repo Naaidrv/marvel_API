@@ -47,3 +47,31 @@ searchInput.addEventListener("input", (e) => {
 // Cargar personajes iniciales
 fetchCharacters();
 
+// Supongamos que ya tienes un array con los personajes (por ejemplo, "charactersData")
+function renderCharacters(charactersData) {
+  const charactersContainer = document.getElementById('charactersContainer');
+
+  // Limpiar contenedor antes de renderizar
+  charactersContainer.innerHTML = '';
+
+  charactersData.forEach(character => {
+    // Crear tarjeta
+    const card = document.createElement('div');
+    card.classList.add('character-card');
+    card.innerHTML = `
+      <img src="${character.thumbnail.path}.${character.thumbnail.extension}" alt="${character.name}">
+      <h3>${character.name}</h3>
+    `;
+
+    // Agregar evento para capturar la ID
+    card.addEventListener('click', () => {
+      // Almacenar la ID en localStorage (puede usarse para pasar datos entre páginas)
+      localStorage.setItem('selectedCharacterId', character.id);
+      
+      // Redirigir a la página de biografía
+      window.location.href = '/character.html';
+    });
+
+    charactersContainer.appendChild(card);
+  });
+}

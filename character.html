@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/character.css">
+    <title>Biografia del Personaje</title>
+</head>
+<body>
+    <!-- Botón para regresar al buscador -->
+    <header>
+        <button class="back-button" onclick="goBack()">← Regresar al Buscador</button>
+    </header>
+
+    <!-- Contenedor principal de la biografía -->
+    <main class="biography-container" id="mainContent">
+        <!-- Nombre del personaje -->
+        <section class="character-header">
+            <h1 id="character-name">Nombre del Personaje</h1>
+            <h2 id="real-name"></h2>
+            <img id="character-image" src="#" alt="Imagen del Personaje">
+        </section>
+
+        <!-- Historia del personaje -->
+        <section class="character-story">
+            <h3>Historia</h3>
+            <p id="character-story"></p>
+        </section>
+
+        <!-- Datos generales -->
+        <section class="character-info">
+            <h3>Datos Generales</h3>
+            <ul id="general-info">
+                <!-- Aquí se llenará dinámicamente con los datos -->
+            </ul>
+        </section>
+
+        <!-- Grupo o afiliación -->
+        <section class="character-group">
+            <h3>Afiliación</h3>
+            <div id="group-chip" class="group-chip"></div>
+        </section>
+    </main>
+
+    <!-- Pie de página (opcional) -->
+    <footer>
+        <p>Powered by Marvel API</p>
+    </footer>
+    <script src="/js/md5.js"></script>
+    <script src="/js/character.js"></script>
+</body>
+</html>
