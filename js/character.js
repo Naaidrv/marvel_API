@@ -133,7 +133,6 @@ function updateTabs(character) {
   `;
 
   // Función para actualizar el contenido de la pestaña
-  // Función para actualizar el contenido de la pestaña
   function updateTabContent(contentType) {
     let items;
     switch(contentType) {
@@ -167,10 +166,13 @@ function updateTabs(character) {
   
                 // Reemplazar HTTP por HTTPS en la URL de la imagen
                 if (result.thumbnail && result.thumbnail.path.startsWith('http://')) {
+                    console.log(`URL original HTTP: ${result.thumbnail.path}`); // Verificar el problema con HTTP
                     result.thumbnail.path = result.thumbnail.path.replace('http://', 'https://');
                 } else if (result.thumbnail && !result.thumbnail.path.startsWith('https://')) {
                     result.thumbnail.path = 'https://' + result.thumbnail.path;
                 }
+  
+                console.log(`URL modificada: ${result.thumbnail.path}`); // Verificar la URL después de la modificación
                 return result;
             })
             .catch(error => {
@@ -201,7 +203,6 @@ function updateTabs(character) {
         });
   }
   
-
   // Inicializar con comics
   updateTabContent('comics');
 
