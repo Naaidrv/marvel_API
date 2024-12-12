@@ -209,7 +209,7 @@ function updateTabContent(contentType) {
           updateTabContent(tab.dataset.content);
       });
   });
-}
+
 
 
 function displayError(message) {
