@@ -121,99 +121,81 @@ function displayCharacterDetails(character) {
     updateTabs(character);
 }
 
-function updateTabs(character) {
-  const tabsContainer = document.querySelector('.tabs');
-  const comicsGrid = document.querySelector('.comics-grid');
-
-  // Actualizar las pestañas
-  tabsContainer.innerHTML = `
-      <button class="tab active" data-content="comics">Comics</button>
-      <button class="tab" data-content="series">Series</button>
-      <button class="tab" data-content="events">Eventos</button>
-  `;
-
-  // Función para actualizar el contenido de la pestaña
-  function updateTabContent(contentType) {
-    let items;
-    switch(contentType) {
-        case 'comics':
-            items = character.comics.items;
-            break;
-        case 'series':
-            items = character.series.items;
-            break;
-        case 'events':
-            items = character.events.items;
-            break;
-        default:
-            items = [];
-    }
-  
-    // Limpiar el contenido actual
-    comicsGrid.innerHTML = '<p>Cargando...</p>';
-  
-    // Obtener los detalles de cada ítem para incluir las imágenes
-    const promises = items.map(item => {
-        return fetch(item.resourceURI + `?apikey=0299ad036fa9655c5ed46ab66088e486`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la solicitud: ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                let result = data.data.results[0]; // La API regresa un array, tomamos el primer resultado
-  
-                // Reemplazar HTTP por HTTPS en la URL de la imagen
-                if (result.thumbnail && result.thumbnail.path.startsWith('http://')) {
-                    console.log(`URL original HTTP: ${result.thumbnail.path}`); // Verificar el problema con HTTP
-                    result.thumbnail.path = result.thumbnail.path.replace('http://', 'https://');
-                } else if (result.thumbnail && !result.thumbnail.path.startsWith('https://')) {
-                    result.thumbnail.path = 'https://' + result.thumbnail.path;
-                }
-  
-                console.log(`URL modificada: ${result.thumbnail.path}`); // Verificar la URL después de la modificación
-                return result;
-            })
-            .catch(error => {
-                console.error('Error al cargar los detalles:', error);
-                return null; // En caso de error, retornar null para no romper la ejecución
-            });
-    });
-  
-    // Esperar a que todas las promesas se resuelvan
-    Promise.all(promises)
-        .then(results => {
-            // Filtrar los resultados nulos (en caso de error en alguno de los ítems)
-            const validResults = results.filter(result => result !== null);
-            if (validResults.length === 0) {
-                comicsGrid.innerHTML = '<p>No se encontraron elementos para mostrar.</p>';
-            } else {
-                comicsGrid.innerHTML = validResults.map(result => `
-                    <div class="comic">
-                        <img src="${result.thumbnail.path}.${result.thumbnail.extension}" alt="${result.title || result.name}">
-                        <p>${result.title || result.name}</p>
-                    </div>
-                `).join('');
-            }
-        })
-        .catch(error => {
-            console.error('Error al cargar los detalles:', error);
-            comicsGrid.innerHTML = '<p>Error al cargar el contenido.</p>';
-        });
+function updateTabContent(contentType) {
+  let items;
+  switch(contentType) {
+      case 'comics':
+          items = character.comics.items;
+          break;
+      case 'series':
+          items = character.series.items;
+          break;
+      case 'events':
+          items = character.events.items;
+          break;
+      default:
+          items = [];
   }
-  
-  // Inicializar con comics
-  updateTabContent('comics');
 
-  // Agregar event listeners a las pestañas
-  tabsContainer.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-          tabsContainer.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          updateTabContent(tab.dataset.content);
-      });
+  // Limpiar el contenido actual
+  comicsGrid.innerHTML = '<p>Cargando...</p>';
+
+  // Obtener los detalles de cada ítem para incluir las imágenes
+  const promises = items.map(item => {
+      return fetch(item.resourceURI + `?apikey=0299ad036fa9655c5ed46ab66088e486`)
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Error en la solicitud: ' + response.statusText);
+              }
+              return response.json();
+          })
+          .then(data => {
+              let result = data.data.results[0]; // La API regresa un array, tomamos el primer resultado
+
+              // Verificar si la imagen está usando HTTP
+              console.log(`URL original: ${result.thumbnail.path}`); // Muestra la URL original
+
+              if (result.thumbnail && result.thumbnail.path.startsWith('http://')) {
+                  console.log(`Modificando a HTTPS: ${result.thumbnail.path}`); // Si es HTTP, muestra que se está modificando
+                  result.thumbnail.path = result.thumbnail.path.replace('http://', 'https://');
+              }
+
+              // Verificar si ya está en HTTPS
+              if (!result.thumbnail.path.startsWith('https://')) {
+                  console.log(`Agregando HTTPS: ${result.thumbnail.path}`);
+                  result.thumbnail.path = 'https://' + result.thumbnail.path;
+              }
+
+              console.log(`URL final: ${result.thumbnail.path}`); // Muestra la URL final después de modificaciones
+
+              return result;
+          })
+          .catch(error => {
+              console.error('Error al cargar los detalles:', error);
+              return null; // Retorna null si hay un error
+          });
   });
+
+  // Esperar a que todas las promesas se resuelvan
+  Promise.all(promises)
+      .then(results => {
+          // Filtrar los resultados nulos (en caso de error en alguno de los ítems)
+          const validResults = results.filter(result => result !== null);
+          if (validResults.length === 0) {
+              comicsGrid.innerHTML = '<p>No se encontraron elementos para mostrar.</p>';
+          } else {
+              comicsGrid.innerHTML = validResults.map(result => `
+                  <div class="comic">
+                      <img src="${result.thumbnail.path}.${result.thumbnail.extension}" alt="${result.title || result.name}">
+                      <p>${result.title || result.name}</p>
+                  </div>
+              `).join('');
+          }
+      })
+      .catch(error => {
+          console.error('Error al cargar los detalles:', error);
+          comicsGrid.innerHTML = '<p>Error al cargar el contenido.</p>';
+      });
 }
 
 
