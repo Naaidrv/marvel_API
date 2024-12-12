@@ -1,18 +1,26 @@
-// /api/marvel.js
+// api/marvel.js
+
 export default async function handler(req, res) {
+    // Usamos las variables de entorno en el backend (servidor)
     const publicKey = process.env.MARVEL_PUBLIC_KEY;
     const privateKey = process.env.MARVEL_PRIVATE_KEY;
-    const ts = new Date().getTime();
-    const hash = md5(ts + privateKey + publicKey);
-    
-    const apiUrl = `https://gateway.marvel.com/v1/public/characters/${req.query.characterId}?ts=${ts}&apikey=${publicKey}&hash=${hash}`;
-    
-    const response = await fetch(apiUrl);
-    const data = await response.json();
-    
-    if (!response.ok) {
-        res.status(500).json({ error: "Error al cargar los datos del personaje" });
-    } else {
-        res.status(200).json(data);
+  
+    try {
+      // Hacemos la llamada a la API de Marvel
+      const response = await fetch(`https://gateway.marvel.com/v1/public/characters?apikey=${publicKey}`);
+      
+      // Si la respuesta es exitosa, procesamos la data
+      if (!response.ok) {
+        return res.status(500).json({ error: 'Error al obtener los datos de Marvel' });
+      }
+  
+      const data = await response.json();
+      
+      // Respondemos con los datos al frontend
+      res.status(200).json(data);
+    } catch (error) {
+      console.error('Error en la llamada a la API:', error);
+      res.status(500).json({ error: 'Error interno del servidor' });
     }
-}
+  }
+  
