@@ -198,6 +198,19 @@ function updateTabContent(contentType) {
       });
 }
 
+  // Inicializar con comics
+  updateTabContent('comics');
+
+  // Agregar event listeners a las pestañas
+  tabsContainer.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+          tabsContainer.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          updateTabContent(tab.dataset.content);
+      });
+  });
+}
+
 
 function displayError(message) {
     const mainContent = document.getElementById('mainContent');
