@@ -1,52 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/character.css">
-    <title>Biografia del Personaje</title>
+    <title>Personaje Marvel</title>
+    <link rel="stylesheet" href="/css/character.css"> <!-- Asegúrate de que este archivo esté correctamente vinculado -->
 </head>
 <body>
-    <!-- Botón para regresar al buscador -->
-    <header>
-        <button class="back-button" onclick="goBack()">← Regresar al Buscador</button>
+
+    <!-- Encabezado -->
+    <header style="">
+        <a href="/index.html">
+            <img src="/assets/logo_marvel.png" alt="Marvel Logo" class="marvel-logo">
+        </a> <!-- Reemplaza 'logo.png' con tu logo real -->
     </header>
 
-    <!-- Contenedor principal de la biografía -->
-    <main class="biography-container" id="mainContent">
-        <!-- Nombre del personaje -->
-        <section class="character-header">
-            <h1 id="character-name">Nombre del Personaje</h1>
-            <h2 id="real-name"></h2>
-            <img id="character-image" src="#" alt="Imagen del Personaje">
-        </section>
+    <!-- Contenedor principal -->
+    <div class="container">
+        
 
-        <!-- Historia del personaje -->
-        <section class="character-story">
-            <h3>Historia</h3>
-            <p id="character-story"></p>
-        </section>
+        <!-- Navegación -->
+        <nav>
+            <a href="/page.html" class="back-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path d="M11 8a.5.5 0 0 0-.5-.5H4.707l4.146-4.146a.5.5 0 0 0-.708-.708l-5 5a.5.5 0 0 0 0 .708l5 5a.5.5 0 0 0 .708-.708L4.707 8.5H10.5A.5.5 0 0 0 11 8z"/>
+                </svg>
+                Volver al buscador
+            </a>
+            <button class="theme-toggle">
+                <span class="theme-icon">🌙</span> <!-- Icono inicial para Modo Claro -->
+            </button>
+        </nav>
 
-        <!-- Datos generales -->
-        <section class="character-info">
-            <h3>Datos Generales</h3>
-            <ul id="general-info">
-                <!-- Aquí se llenará dinámicamente con los datos -->
-            </ul>
-        </section>
+        <!-- Contenido del personaje -->
+        <div class="character-content" id="mainContent">
+            
+            <!-- Imagen del personaje -->
+            <div class="character-image">
+                <img src="" alt="Imagen del Personaje"> <!-- Asegúrate de usar la URL correcta de la imagen -->
+            </div>
 
-        <!-- Grupo o afiliación -->
-        <section class="character-group">
-            <h3>Afiliación</h3>
-            <div id="group-chip" class="group-chip"></div>
-        </section>
-    </main>
+            <!-- Detalles del personaje -->
+            <div class="character-details">
+                <h1 class="character-name"></h1><!-- Aquí reemplaza con el nombre del personaje -->
+                <div class="tags">
+                    <span class="tag"></span> <!-- Cambia las etiquetas según lo que corresponda -->
+                    <span class="tag"></span>
+                </div>
+                
+                <div class="character-stats">
+                    <div class="stat">
+                        <span class="stat-label"></span>
+                        <span class="stat-value"></span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label"></span>
+                        <span class="stat-value"></span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label"></span>
+                        <span class="stat-value"></span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label"></span>
+                        <span class="stat-value"></span>
+                    </div>
+                    <!-- Agrega más estadísticas según sea necesario -->
+                </div>
 
-    <!-- Pie de página (opcional) -->
-    <footer>
-        <p>Powered by Marvel API</p>
-    </footer>
+                <p class="character-description">
+                </p>
+            </div>
+
+        </div> <!-- Fin de .character-content -->
+        <br><br>
+        <!-- Pestañas -->
+        <div class="tabs">
+            <button class="tab active">Comics</button> <!-- Agrega clases dinámicas según la pestaña activa -->
+            <button class="tab">Películas</button>
+            <button class="tab">Series</button>
+        </div>
+<br>
+        <!-- Grid de comics -->
+        <div class="comics-grid">
+            <div class="comic">
+                <img src="" alt="Comic 1" class="comicImg">
+                <p></p>
+            </div>
+            <!-- Agrega más comics según sea necesario -->
+        </div>
+
+    </div> <!-- Fin de .container -->
+
     <script src="/js/md5.js"></script>
-    <script src="/js/character.js"></script>
+    <script src="/js/character.js"></script> <!-- Asegúrate de incluir tu archivo JS si tienes interacción -->
 </body>
 </html>
