@@ -1,6 +1,6 @@
 // Función para regresar al buscador
 function goBack() {
-    window.history.back(); // Regresa a la página anterior
+    window.location.href = '/page.html';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,110 +15,99 @@ document.addEventListener('DOMContentLoaded', () => {
   // Evento para volver atrás
   document.querySelector('.back-link').addEventListener('click', (e) => {
     e.preventDefault();
-    window.location.href = '/page.html';
+    goBack();
   });
 
-// Toggle del tema
-document.querySelector('.theme-toggle').addEventListener('click', () => {
-  const themeIcon = document.querySelector('.theme-icon');  // Obtener el ícono
+  // Toggle del tema
+  const themeToggle = document.querySelector('.theme-toggle');
+  const themeIcon = document.querySelector('.theme-icon');
 
-  // Obtener el tema actual
-  const currentTheme = document.documentElement.getAttribute('data-theme');
-  
-  // Cambiar el tema
-  if (currentTheme === 'dark') {
-      // Cambiar el tema a claro
-      document.documentElement.setAttribute('data-theme', 'light');
-      // Cambiar el ícono a luna (🌙) para modo claro
-      themeIcon.textContent = '🌙'; // Ícono para Modo Claro
-  } else {
-      // Cambiar el tema a oscuro
-      document.documentElement.setAttribute('data-theme', 'dark');
-      // Cambiar el ícono a sol (☀️) para modo oscuro
-      themeIcon.textContent = '☀️'; // Ícono para Modo Oscuro
-  }
+  themeToggle.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    themeIcon.textContent = newTheme === 'light' ? '🌙' : '☀️';
+  });
+
+  // Restaurar el tema almacenado
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  themeIcon.textContent = savedTheme === 'light' ? '🌙' : '☀️';
 });
 
-// Al cargar la página, restaurar el tema almacenado (si existe)
-document.addEventListener('DOMContentLoaded', () => {
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-      document.documentElement.setAttribute('data-theme', savedTheme);
-  }
-});
-});
+// Constantes para las claves de la API de Marvel
+const MARVEL_PUBLIC_KEY = "0299ad036fa9655c5ed46ab66088e486";
+const MARVEL_PRIVATE_KEY = "25be40de079c0af41e2e861c79e98a026e1e789b";
 
-  
 function fetchCharacterDetails(characterId) {
-  const publicKey = "0299ad036fa9655c5ed46ab66088e486";
-  const privateKey = "25be40de079c0af41e2e861c79e98a026e1e789b";
   const ts = new Date().getTime();
+  const hash = md5(ts + MARVEL_PRIVATE_KEY + MARVEL_PUBLIC_KEY);
   
-  const hash = md5(ts + privateKey + publicKey);
-  
-  const apiUrl = `https://gateway.marvel.com/v1/public/characters/${characterId}?ts=${ts}&apikey=${publicKey}&hash=${hash}`;
+  const apiUrl = `https://gateway.marvel.com/v1/public/characters/${characterId}?ts=${ts}&apikey=${MARVEL_PUBLIC_KEY}&hash=${hash}`;
   
   fetch(apiUrl)
-      .then(response => {
-          if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json();
-      })
-      .then(data => {
-          if (data.data && data.data.results && data.data.results.length > 0) {
-              const character = data.data.results[0];
-              displayCharacterDetails(character);
-          } else {
-              throw new Error("No se encontraron datos para este personaje.");
-          }
-      })
-      .catch(error => {
-          console.error("Error al obtener los detalles del personaje:", error);
-          displayError("Hubo un error al cargar los detalles del personaje. Por favor, intenta de nuevo más tarde.");
-      });
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.data && data.data.results && data.data.results.length > 0) {
+        const character = data.data.results[0];
+        displayCharacterDetails(character);
+      } else {
+        throw new Error("No se encontraron datos para este personaje.");
+      }
+    })
+    .catch(error => {
+      console.error("Error al obtener los detalles del personaje:", error);
+      displayError("Hubo un error al cargar los detalles del personaje. Por favor, intenta de nuevo más tarde.");
+    });
 }
 
 function displayCharacterDetails(character) {
-    const mainContent = document.getElementById('mainContent');
-    if (!mainContent) {
-        console.error("Elemento 'mainContent' no encontrado");
-        return;
-    }
+  const mainContent = document.getElementById('mainContent');
+  if (!mainContent) {
+    console.error("Elemento 'mainContent' no encontrado");
+    return;
+  }
 
-    // Actualizar la imagen del personaje
-    const characterImage = mainContent.querySelector('.character-image img');
-    characterImage.src = `${character.thumbnail.path}.${character.thumbnail.extension}`;
-    characterImage.alt = character.name;
+  // Actualizar la imagen del personaje
+  const characterImage = mainContent.querySelector('.character-image img');
+  characterImage.src = `${character.thumbnail.path}.${character.thumbnail.extension}`.replace('http:', 'https:');
+  characterImage.alt = character.name;
 
-    // Actualizar los detalles del personaje
-    const characterDetails = mainContent.querySelector('.character-details');
-    characterDetails.innerHTML = `
-        <h1> ${character.name}</h1>
-        <p class="alias">${character.name}</p>
-        <div class="tags">
-            ${character.series.items.slice(0, 2).map(series => `<span class="tag">${series.name}</span>`).join('')}
-        </div>
-        <div class="character-stats">
-            <div class="stat">
-                <span class="stat-label">Comics</span>
-                <span class="stat-value">${character.comics.available}</span>
-            </div>
-            <div class="stat">
-                <span class="stat-label">Series</span>
-                <span class="stat-value">${character.series.available}</span>
-            </div>
-            <div class="stat">
-                <span class="stat-label">Eventos</span>
-                <span class="stat-value">${character.events.available}</span>
-            </div>
-        </div>
+  // Actualizar los detalles del personaje
+  const characterDetails = mainContent.querySelector('.character-details');
+  characterDetails.innerHTML = `
+    <h1>${character.name}</h1>
+    <p class="alias">${character.name}</p>
+    <div class="tags">
+      ${character.series.items.slice(0, 2).map(series => `<span class="tag">${series.name}</span>`).join('')}
+    </div>
+    <div class="character-stats">
+      <div class="stat">
+        <span class="stat-label">Comics</span>
+        <span class="stat-value">${character.comics.available}</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Series</span>
+        <span class="stat-value">${character.series.available}</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Eventos</span>
+        <span class="stat-value">${character.events.available}</span>
+      </div>
+    </div>
+    <p class="character-description">${character.description || 'No hay descripción disponible para este personaje.'}</p>
+  `;
 
-        <p class="character-description">${character.description || 'No hay descripción disponible para este personaje.'}</p>
-    `;
-
-    // Actualizar las pestañas y el contenido
-    updateTabs(character);
+  // Actualizar las pestañas y el contenido
+  updateTabs(character);
 }
 
 function updateTabs(character) {
@@ -127,75 +116,69 @@ function updateTabs(character) {
 
   // Actualizar las pestañas
   tabsContainer.innerHTML = `
-      <button class="tab active" data-content="comics">Comics</button>
-      <button class="tab" data-content="series">Series</button>
-      <button class="tab" data-content="events">Eventos</button>
+    <button class="tab active" data-content="comics">Comics (${character.comics.available})</button>
+    <button class="tab" data-content="series">Series (${character.series.available})</button>
+    <button class="tab" data-content="events">Eventos (${character.events.available})</button>
   `;
 
   // Función para actualizar el contenido de la pestaña
   function updateTabContent(contentType) {
-      let items;
-      switch (contentType) {
-          case 'comics':
-              items = character.comics.items;
-              break;
-          case 'series':
-              items = character.series.items;
-              break;
-          case 'events':
-              items = character.events.items;
-              break;
-          default:
-              items = [];
-      }
+    let items;
+    switch (contentType) {
+      case 'comics':
+        items = character.comics.items;
+        break;
+      case 'series':
+        items = character.series.items;
+        break;
+      case 'events':
+        items = character.events.items;
+        break;
+      default:
+        items = [];
+    }
 
-      // Limpiar el contenido actual
-      comicsGrid.innerHTML = '<p>Cargando...</p>';
+    // Limpiar el contenido actual
+    comicsGrid.innerHTML = '<p>Cargando...</p>';
 
-      // Parámetros para la autenticación en la API
-      const publicKey = "0299ad036fa9655c5ed46ab66088e486";
-      const privateKey = "25be40de079c0af41e2e861c79e98a026e1e789b";
-      const ts = new Date().getTime();
-      const hash = md5(ts + privateKey + publicKey);
+    // Obtener los detalles de cada ítem para incluir las imágenes
+    const promises = items.map(item => {
+      const resourceUrl = `${item.resourceURI}?ts=${ts}&apikey=${MARVEL_PUBLIC_KEY}&hash=${hash}`;
+      return fetch(resourceUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => data.data.results[0])
+        .catch(error => {
+          console.error(`Error al cargar el recurso ${item.resourceURI}:`, error);
+          return null;
+        });
+    });
 
-      // Obtener los detalles de cada ítem para incluir las imágenes
-      const promises = items.map(item => {
-          const resourceUrl = `${item.resourceURI}?ts=${ts}&apikey=${publicKey}&hash=${hash}`;
-          return fetch(resourceUrl)
-              .then(response => {
-                  if (!response.ok) {
-                      throw new Error(`Error HTTP: ${response.status}`);
-                  }
-                  return response.json();
-              })
-              .then(data => data.data.results[0]) // La API regresa un array, tomamos el primer resultado
-              .catch(error => {
-                  console.error(`Error al cargar el recurso ${item.resourceURI}:`, error);
-                  return null; // Manejar ítems individuales con error
-              });
+    // Esperar a que todas las promesas se resuelvan
+    Promise.all(promises)
+      .then(results => {
+        comicsGrid.innerHTML = results
+          .filter(result => result)
+          .map(result => `
+            <div class="comic">
+              <img src="${result.thumbnail.path.replace('http:', 'https:')}.${result.thumbnail.extension}" 
+                   alt="${result.title || result.name || 'Sin título'}">
+              <p>${result.title || result.name || 'Sin título'}</p>
+            </div>
+          `).join('');
+
+        if (!results.some(result => result)) {
+          comicsGrid.innerHTML = '<p>No se encontraron elementos para mostrar.</p>';
+        }
+      })
+      .catch(error => {
+        console.error('Error al cargar los detalles:', error);
+        comicsGrid.innerHTML = '<p>Error al cargar el contenido.</p>';
       });
-
-      // Esperar a que todas las promesas se resuelvan
-      Promise.all(promises)
-          .then(results => {
-              comicsGrid.innerHTML = results
-                  .filter(result => result) // Filtrar ítems nulos
-                  .map(result => `
-                      <div class="comic">
-                          <img src="${result.thumbnail.path}.${result.thumbnail.extension}" 
-                               alt="${result.title || result.name || 'Sin título'}">
-                          <p>${result.title || result.name || 'Sin título'}</p>
-                      </div>
-                  `).join('');
-
-              if (!results.some(result => result)) {
-                  comicsGrid.innerHTML = '<p>No se encontraron elementos para mostrar.</p>';
-              }
-          })
-          .catch(error => {
-              console.error('Error al cargar los detalles:', error);
-              comicsGrid.innerHTML = '<p>Error al cargar el contenido.</p>';
-          });
   }
 
   // Inicializar con comics
@@ -203,25 +186,21 @@ function updateTabs(character) {
 
   // Agregar event listeners a las pestañas
   tabsContainer.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-          tabsContainer.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          updateTabContent(tab.dataset.content);
-      });
+    tab.addEventListener('click', () => {
+      tabsContainer.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      updateTabContent(tab.dataset.content);
+    });
   });
 }
 
-
 function displayError(message) {
-    const mainContent = document.getElementById('mainContent');
-    if (mainContent) {
-        mainContent.innerHTML = `
-            <div class="error-message">
-                <p>${message}</p>
-            </div>
-        `;
-    }
+  const mainContent = document.getElementById('mainContent');
+  if (mainContent) {
+    mainContent.innerHTML = `
+      <div class="error-message">
+        <p>${message}</p>
+      </div>
+    `;
+  }
 }
-
-console.log(process.env.MARVEL_PUBLIC_KEY);
-console.log(process.env.MARVEL_PRIVATE_KEY);
