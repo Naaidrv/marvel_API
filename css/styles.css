@@ -1,65 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Outfit:wght@100..900&family=Parkinsans:wght@300..800&display=swap');
+
+
 /* Fondo del cuerpo */
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Manrope", sans-serif;
   margin: 0;
   background: url('/assets/background-comics.png') no-repeat center center fixed;
   background-size: cover;
   color: white;
   text-align: center;
+  display: flex; /* Activar flexbox */
+  flex-direction: column; /* Alinear elementos verticalmente */
+  min-height: 100vh; /* Hacer que el body ocupe toda la pantalla */
+}
+
+#resultsCount {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #f0131e;
+  padding: 10px 20px;
+  text-align: left;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Contenedor principal */
+main {
+  flex: 1; /* Toma todo el espacio disponible entre el header y el footer */
 }
 
 /* Encabezado */
 header {
   padding: 20px;
-  background: #f0131e; /* Fondo semitransparente */
+  background: linear-gradient(90deg, #f0131e, #c1121f);
   color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 15px;
 }
 
 header input {
-    padding: 10px;
-    width: 80%;
-    max-width: 400px;
-    border: none;
-    border-radius: 5px;
-  }
+  padding: 12px;
+  width: 80%;
+  max-width: 400px;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+}
 
-/* Caja de resultados */
+header input:focus {
+  border-color: #f0131e;
+  outline: none;
+}
+
+/* Contenedor de resultados */
 #charactersContainer {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
   padding: 20px;
-  background: rgb(18, 18, 18); 
-  border-radius: 8px; /* Opcional para un mejor diseño */
+  background: rgba(18, 18, 18, 0.95);
+  border-radius: 12px;
   margin: 40px auto;
-  max-width: 90%; /* Controlar el ancho */
+  max-width: 90%;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
 }
 
 /* Tarjetas */
 .character-card {
-  background: #1c1c1c;
-  border-radius: 8px;
-  padding: 20px;
-  width: 200px;
+  background: #252525;
+  border-radius: 12px;
+  padding: 15px;
+  width: 220px;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+  overflow: hidden;
 }
 
 .character-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(145deg, #333, #252525);
 }
 
-/* Imagen dentro de la tarjeta */
+/* Imagen de las tarjetas */
 .character-card img {
   width: 100%;
+  height: 220px;
+  object-fit: cover;
   border-radius: 8px;
+  margin-bottom: 10px;
+  background-color: #333; /* Placeholder para imágenes con errores */
+}
+
+/* Título del personaje */
+.character-card h3 {
+  font-size: 18px;
+  color: #ffffff;
+  margin: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: color 0.3s;
+}
+
+.character-card:hover h3 {
+  color: #ff003c;
 }
 
 /* Pie de página */
 footer {
-  padding: 10px;
+  padding: 15px;
   background: #101010;
   font-size: 0.9rem;
+  color: #aaa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto; /* Empuja el footer al final del contenedor */
+}
+
+footer p {
+  margin: 0;
+  font-size: 1rem;
+  color: #fff;
 }

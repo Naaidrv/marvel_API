@@ -113,7 +113,7 @@ function displayCharacterDetails(character) {
                     <span class="stat-value">${character.events.available}</span>
                 </div>
             </div>
-            <p class="character-description">${character.description || 'No hay descripción disponible para este personaje.'}</p>
+            <p class="character-description">${character.description || 'Opps!, No hay descripción disponible para este personaje.'}</p>
         `;
     }
 

@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Outfit:wght@100..900&family=Parkinsans:wght@300..800&display=swap');
+
+
 :root {
     --background: #ffffff;
     --foreground: #000000;
@@ -17,7 +20,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Manrope", sans-serif;
     margin: 0;
     padding: 0;
     background-color: var(--background);
@@ -111,13 +114,14 @@ button {
 
 @media (min-width: 768px) {
     .character-content {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 2fr 2fr;
     }
 }
 
 .character-image img {
     width: 100%;
     height: 100%;
+    border-radius: 20px;
     object-fit: cover;
 }
 
@@ -176,12 +180,14 @@ h1 {
 }
 
 .character-description {
+    text-align: justify;
     color: var(--muted-foreground);
 }
 
 .tabs {
     display: flex;
     gap: 4rem;
+    font-family: "Manrope";
     border-bottom: 1px solid var(--border);
 }
 
@@ -220,6 +226,7 @@ h1 {
 }
 
 .comic p {
+    font-family: "Manrope";
     text-align: center;
     font-size: 1rem;
     margin-top: 10px;
