@@ -1,3 +1,4 @@
+
 /* Estilos globales */
 body {
     margin: 0;
@@ -7,13 +8,30 @@ body {
     overflow-x: hidden;
   }
   
+  header {
+    position: fixed; /* Hace que el header quede fijo en la parte superior */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Opacidad del fondo */
+    padding: 20px 1px 0.5px;
+    text-align: center;
+    box-sizing: border-box;
+    z-index: 1000; 
+  }
+  
+  header .marvel-logo{
+    width: 6%;
+  }
+
   .container {
     position: relative;
+    margin-top: 4rem; /
   }
   
   /* Sección del header */
   .hero {
-    position: relative;
+    z-index: -1000; 
     height: 100vh;
     background: url('/assets/background.png') no-repeat center center/cover;
     display: flex;
@@ -30,19 +48,13 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0.097);
   }
   
   .hero .content {
     position: relative;
     z-index: 2;
     max-width: 600px;
-  }
-  
-  .marvel-logo {
-    width: 150px;
-    text-align: center;
-    margin-bottom: 20px;
   }
   
   h1 {
@@ -98,3 +110,66 @@ body {
     -webkit-background-clip: text; /* Asegura que el gradiente se aplique al texto */
     color: transparent;
   }
+
+  @media (max-width: 480px) {
+    /* Centrar el contenedor .hero */
+    .hero {
+        display: flex; /* Activa Flexbox */
+        flex-direction: column; /* Asegura que los elementos estén en columna */
+        align-items: center; /* Centra horizontalmente */
+        justify-content: center; /* Centra verticalmente */
+        height: 100vh; /* Hace que ocupe toda la altura de la pantalla */
+        padding: 20px; /* Espaciado alrededor */
+        text-align: center; /* Centra el texto */
+        background: url(/assets/backMobbile.jpg)no-repeat center center/cover; /* Elimina el fondo */
+    }
+
+    .hero .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.524);
+    }
+
+    /* Ajustar el título */
+    h1 {
+        font-size: 2rem; /* Tamaño más pequeño para pantallas pequeñas */
+        margin-top: 150px;
+    }
+
+    /* Ajustar el párrafo */
+    p {
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+
+    /* Ajustar el botón */
+    .btn-start {
+        font-size: 1rem;
+        padding: 10px 25px;
+        border-radius: 16px 0; /* Botón más compacto */
+    }
+
+    /* Centrar y ajustar el logo */
+    header .marvel-logo {
+        width: 30%; /* Ajusta el tamaño del logo */
+        padding: 0px 10px 20px;
+        margin: 0 auto;
+    }
+
+   /* Centrar los iconos sociales */
+    /* Iconos sociales centrados */
+    .social-icons {
+      bottom: 20px; /* Mantén la distancia desde abajo */
+      left: 50%; /* Centra horizontalmente */
+      transform: translateX(-50%); /* Ajusta para centrar perfectamente */
+      gap: 10px; /* Reduce ligeramente el espacio entre íconos */
+  }
+
+  /* Ajustar el tamaño de los íconos */
+  .social-icons i {
+      font-size: 20px; /* Tamaño adecuado para pantallas pequeñas */
+  }
+}
