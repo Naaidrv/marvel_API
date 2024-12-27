@@ -32,12 +32,15 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 header {
     background-color: #000000;
-    padding: 1rem 0;
+    padding: 1rem;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .marvel-logo {
@@ -49,9 +52,10 @@ header {
 
 nav {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 0;
+    padding: 0.5rem 0;
 }
 
 .back-link {
@@ -234,7 +238,9 @@ h1 {
 
 
 @media (min-width: 768px) {
-
+    header{
+        width: 100%;
+    }
     
     .comics-grid {
         grid-template-columns: repeat(5, 1fr);
@@ -261,12 +267,45 @@ h1 {
 }
 
 @media (max-width: 480px) {
+    header{
+        width: 100%;
+    }
+
     .comics-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 2fr 2fr;
     }
 
     .comic img {
         height: 200px; /* Puedes ajustar el tamaño máximo aquí */
-        object-fit: contain; /* Para asegurar que las imágenes no se deformen */
+        object-fit: cover; /* Para asegurar que las imágenes no se deformen */
     }
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    .alias {
+        font-size: 1rem;
+    }
+
+    .character-content {
+        gap: 1rem;
+    }
+
+    .character-details {
+        gap: 1rem;
+    }
+
+    .tabs {
+        gap: 1rem;
+    }
+
+    .tab {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+}
+
+img {
+    max-width: 100%;
+    height: auto;
 }
